@@ -1188,6 +1188,15 @@ void highlight_selections(HighlightContext context, DisplayBuffer& display_buffe
         const bool eol = buffer[coord.line].length() - 1 == coord.column;
         highlight_range(display_buffer, coord, buffer.char_next(coord), false,
                         apply_face(faces[2 + (eol ? 2 : 0) + (primary ? 0 : 1)]));
+        if (eol)
+        {
+            auto it = find_if(display_buffer.lines(), [&](auto& l) { return l.range().begin.line ==  coord.line; });
+            if (it != display_buffer.lines().end())
+            {
+                it->push_back(DisplayAtom{String{' ', context.context.window().dimensions().column - it->length()},
+                                          faces[2 + (eol ? 2 : 0) + (primary ? 0 : 1)]});
+            }
+        }
     }
 }
 
