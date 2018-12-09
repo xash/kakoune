@@ -32,7 +32,7 @@ If no symbol is passed then the current selection is used as symbol name} \
         done | awk '!x[$0]++' | # remove duplicates
         while read -r tags; do
             printf '!TAGROOT\t%s\n' "$(realpath "${tags%/*}")/"
-            readtags -t "$tags" $tagname
+            readtags -t "$tags" "$tagname"
         done | awk -F '\t|\n' '
         /^!TAGROOT\t/ { tagroot=$2 }
         /[^\t]+\t[^\t]+\t\/\^.*\$?\// {
